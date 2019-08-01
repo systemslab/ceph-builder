@@ -6,13 +6,13 @@ action "build" {
   uses = "actions/docker/cli@master"
   args = [
     "build",
-    "--build-arg", "UBUNTU_VERSION=$UBUNTU_VERSION",
+    "--build-arg", "OS_VERSION=$OS_VERSION",
     "--build-arg", "GIT_URL=$GIT_URL",
     "--build-arg", "GIT_REF=$GIT_REF",
-    "--tag", "$IMG_NAME",
+    "--tag", "$IMG_TAG",
     "."
   ]
-  secrets = ["UBUNTU_VERSION", "GIT_URL", "GIT_REF", "IMG_NAME"]
+  secrets = ["OS_VERSION", "GIT_URL", "GIT_REF", "IMG_TAG"]
 }
 
 action "login" {
@@ -24,6 +24,6 @@ action "login" {
 action "push" {
   needs = "login"
   uses = "actions/docker/cli@master"
-  args = "push $IMG_NAME"
-  secrets = ["IMG_NAME"]
+  args = "push $IMG_TAG"
+  secrets = ["IMG_TAG"]
 }
