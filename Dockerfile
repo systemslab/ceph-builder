@@ -2,18 +2,15 @@ ARG UBUNTU_VERSION=bionic
 FROM ubuntu:${UBUNTU_VERSION}
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG GITHUB_REPO="ceph/ceph"
+ARG GIT_URL="https://github.com/ceph/ceph"
 ARG GIT_REF="master"
-ARG INSTALL_SCRIPT=""
+ARG EXTRA_PKGS=""
 
 RUN apt-get update && \
-    apt-get install -y curl && \
-    curl -LO https://raw.githubusercontent.com/$GITHUB_REPO/$GIT_REF/install-deps.sh && \
-    curl -LO https://raw.githubusercontent.com/$GITHUB_REPO/$GIT_REF/control && \
-    mkdir debian && \
-    mv control debian && \
-    chmod +x install-deps.sh && \
+    apt-get install -y git && \
+    git clone --branch $GIT_REF --depth 1 $GIT_URL ceph && \
+    cd ceph && \
     ./install-deps.sh && \
-    sh -c 'if [ -f "$INSTALL_SCRIPT" ]; then source "$INSTALL_SCRIPT"; fi' && \
+    sh -c 'if [ -n "$EXTRA_PKGS" ]; then apt-get install -y "$EXTRA_PKGS"; fi' && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* debian/

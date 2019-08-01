@@ -1,0 +1,13 @@
+---
+dist: xenial
+language: python
+python: 3.7
+services: docker
+env:
+- GIT_URL=ceph/ceph            GIT_REF=nautilus    UBUNTU_VERSION=bionic IMG_NAME="popperized/ceph-builder:nautilus-bionic"
+- GIT_URL=uccross/skyhook-ceph GIT_REF=skyhook-dev UBUNTU_VERSION=bionic IMG_NAME="popperized/ceph-builder:skyhook-bionic"
+install:
+- git clone https://github.com/systemslab/popper /tmp/popper
+- export PYTHONUNBUFFERED=1
+- pip install /tmp/popper/cli
+script: popper run

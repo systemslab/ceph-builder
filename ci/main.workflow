@@ -7,12 +7,12 @@ action "build" {
   args = [
     "build",
     "--build-arg", "UBUNTU_VERSION=$UBUNTU_VERSION",
-    "--build-arg", "GITHUB_REPO=$GITHUB_REPO",
+    "--build-arg", "GIT_URL=$GIT_URL",
     "--build-arg", "GIT_REF=$GIT_REF",
     "--tag", "$IMG_NAME",
     "."
   ]
-  secrets = ["UBUNTU_VERSION", "GITHUB_REPO", "GIT_REF", "IMG_NAME"]
+  secrets = ["UBUNTU_VERSION", "GIT_URL", "GIT_REF", "IMG_NAME"]
 }
 
 action "login" {
