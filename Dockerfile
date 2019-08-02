@@ -7,7 +7,7 @@ ARG GIT_REF="master"
 ARG EXTRA_PKGS=""
 
 RUN apt-get update && \
-    apt-get install -y git gnupg2 && \
+    apt-get install -y git gnupg2 ccache && \
     git clone --branch $GIT_REF --depth 1 $GIT_URL ceph && \
     cd ceph && \
     ./install-deps.sh && \
