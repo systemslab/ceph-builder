@@ -14,3 +14,7 @@ RUN apt-get update && \
     sh -c 'if [ -n "$EXTRA_PKGS" ]; then apt-get install -y "$EXTRA_PKGS"; fi' && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* debian/
+
+COPY entrypoint.sh /
+
+ENTRYPOINT ["/entrypoint.sh"]
