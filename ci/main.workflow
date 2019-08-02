@@ -2,7 +2,14 @@ workflow "build image" {
   resolves = "push"
 }
 
+action "populate cache" {
+  uses = "actions/docker/cli@master"
+  args = "pull $IMG_TAG"
+  secrets = ["IMG_TAG"]
+}
+
 action "build" {
+  needs = "populate cache"
   uses = "actions/docker/cli@master"
   args = [
     "build",
