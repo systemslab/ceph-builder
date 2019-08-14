@@ -1,6 +1,25 @@
 #!/bin/bash
 set -e
 
+if [ -z "$CEPH_SRC_DIR" ]; then
+  echo "No CEPH_SRC_DIR variable defined, checking for ./ceph"
+
+  if [ -d "./ceph"]; then
+    echo "Found ./ceph, using it as source directory"
+    CEPH_SRC_DIR="./ceph"
+  elif [ -d "/ceph" ]; then
+    echo "No folder in ./ceph found, attempting to use /ceph"
+    CEPH_SRC_DIR="/ceph"
+  fi
+fi
+
+if [ ! -d "$CEPH_SRC_DIR" ]; then
+  echo "No folder in $CEPH_SRC_DIR"
+  exit 1
+fi
+
+cd "$CEPH_SRC_DIR"
+
 if [ "$CMAKE_CLEAN" == "true" ]; then
   rm -rf ./build
 fi
