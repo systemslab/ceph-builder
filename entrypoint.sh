@@ -2,15 +2,8 @@
 set -e
 
 if [ -z "$CEPH_SRC_DIR" ]; then
-  echo "No CEPH_SRC_DIR variable defined"
-
-  if [ -d "./ceph" ]; then
-    echo "Found ./ceph, using it as source directory"
-    CEPH_SRC_DIR="./ceph"
-  elif [ -d "/ceph" ]; then
-    echo "Found /ceph, using it as source directory"
-    CEPH_SRC_DIR="/ceph"
-  fi
+  echo "No CEPH_SRC_DIR variable defined, using current directory"
+  CEPH_SRC_DIR="./"
 fi
 
 if [ ! -d "$CEPH_SRC_DIR" ]; then
