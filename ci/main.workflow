@@ -3,14 +3,14 @@ workflow "build image" {
 }
 
 action "populate cache" {
-  uses = "actions/docker/cli@master"
+  uses = "popperized/docker/cli@master"
   args = "pull $IMG_TAG"
   secrets = ["IMG_TAG"]
 }
 
 action "build" {
   needs = "populate cache"
-  uses = "actions/docker/cli@master"
+  uses = "popperized/docker/cli@master"
   args = [
     "build",
     "--build-arg", "OS_VERSION=$OS_VERSION",
@@ -24,13 +24,13 @@ action "build" {
 
 action "login" {
   needs = "build"
-  uses = "actions/docker/login@master"
+  uses = "popperized/docker/login@master"
   secrets = ["DOCKER_USERNAME", "DOCKER_PASSWORD"]
 }
 
 action "push" {
   needs = "login"
-  uses = "actions/docker/cli@master"
+  uses = "popperized/docker/cli@master"
   args = "push $IMG_TAG"
   secrets = ["IMG_TAG"]
 }
