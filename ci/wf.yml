@@ -1,0 +1,18 @@
+steps:
+- uses: docker://docker:19.03.3
+  args: ['build',
+    '--build-arg', 'OS_VERSION=$_OS_VERSION', 
+    '--build-arg', 'GIT_URL=$_GIT_URL',
+    '--build-arg', 'GIT_REF=$_GIT_REF',
+    '--tag', '$_IMG',
+    '.'
+  ]
+
+- uses: docker://docker:19.03.3
+  runs: /bin/sh
+  secrets: [DOCKER_USERNAME, DOCKER_PASSWORD]
+  args:
+  - -c
+  - |
+    docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    docker push $_IMG
